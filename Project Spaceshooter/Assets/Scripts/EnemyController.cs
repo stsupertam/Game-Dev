@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour {
 	
     // Update is called once per frame
     void Update () {
-        this.gameObject.transform.Translate (Vector3.down * Time.deltaTime * 10f);
+        this.gameObject.transform.Translate (Vector3.back * Time.deltaTime * 10f);
     }
 
     void OnTriggerEnter (Collider other) {

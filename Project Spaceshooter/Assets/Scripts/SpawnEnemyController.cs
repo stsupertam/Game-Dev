@@ -16,9 +16,7 @@ public class SpawnEnemyController : MonoBehaviour {
 	}
 
 	IEnumerator SpawnEnemy(float waitTime) {
-		
 		Instantiate (myEnemy, this.gameObject.transform.position, Quaternion.identity);
-
 		yield return new WaitForSeconds(waitTime);
 		StartCoroutine (SpawnEnemy (1f));
 	}
