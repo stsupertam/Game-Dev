@@ -8,11 +8,17 @@ public class SpaceShipController : MonoBehaviour{
     public float speed;
     public GameObject myBullet;
     public GameObject plane;
+    public LevelManager levelManager;
+    public bool gameover;
+    private float timer;
     private Dictionary<string, float> screen;
     private float xMin, xMax, zMin, zMax;
 
     void Start(){
+        gameover = false;
         screen = plane.GetComponent<PlaneController>().get_screen();
+        timer = 0;
+        levelManager = GameObject.FindObjectOfType<LevelManager>();
     }
 
     float get_angle(){
@@ -46,6 +52,14 @@ public class SpaceShipController : MonoBehaviour{
         movement();
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
             Instantiate (myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
+        }
+        if(gameover){
+            this.gameObject.GetComponent<Renderer>().enabled = false;
+            timer += Time.deltaTime;
+            Debug.Log(timer);
+            if(timer >= 1f){
+                levelManager.LoadLevel("Game_Over_Screen");
+            }
         }
     }
 }

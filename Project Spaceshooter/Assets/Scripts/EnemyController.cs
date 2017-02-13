@@ -5,7 +5,9 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
     public float speed;
-    public GameObject plane;
+    public AudioClip spaceship_explosion;
+    public AudioClip enemy_explosion;
+    private GameObject plane;
     private Dictionary<string, float> screen;
 
     void Start(){
@@ -29,13 +31,11 @@ public class EnemyController : MonoBehaviour {
         string heart = "heart_" + health;
         spaceship.transform.Find("Canvas").gameObject.GetComponent<HeartController>().display_heart(heart);
         spaceship.GetComponent<SpaceShipController>().health -= 1;
+        AudioSource.PlayClipAtPoint(enemy_explosion, new Vector3(0, 30, 0));
         if(spaceship.GetComponent<SpaceShipController>().health <= 0){
-            Destroy(spaceship);
-            LevelManager levelManager = GameObject.FindObjectOfType<LevelManager>();
-            levelManager.LoadLevel("Game_Over_Screen");
+            AudioSource.PlayClipAtPoint(spaceship_explosion, new Vector3(0, 30, 0));
+            spaceship.GetComponent<SpaceShipController>().gameover = true;
         }
-
-
     }
 
     void OnTriggerEnter(Collider other) {
