@@ -6,10 +6,22 @@ public class BulletController : MonoBehaviour {
 
     public AudioClip myExplosion;
     public float speed;
+    public GameObject plane;
+    private Dictionary<string, float> screen;
+
+    void Start(){
+        plane = GameObject.Find("Plane");
+        screen = plane.GetComponent<PlaneController>().get_screen();
+    }
 
     void Update () {
         transform.position += transform.forward * Time.deltaTime * 10f * speed;
-        if (this.gameObject.transform.position.z >= 40f) {
+
+        Debug.Log(screen["zMax"]);
+        if (this.gameObject.transform.position.z > screen["zMax"] ||
+            this.gameObject.transform.position.z < screen["zMin"] ||
+            this.gameObject.transform.position.x > screen["xMax"] ||
+            this.gameObject.transform.position.x < screen["xMin"]) {
             Destroy (this.gameObject);
         }
     }

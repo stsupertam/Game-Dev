@@ -8,7 +8,6 @@ public class PlaneController : MonoBehaviour {
     public Dictionary<string, float> screen;
 
     public Dictionary<string, float> get_screen(){
-        Debug.Log("Hello world");
         screen = new Dictionary<string, float>();
         screen.Add("xMin", -width/2.0f);
         screen.Add("xMax", width/2.0f);

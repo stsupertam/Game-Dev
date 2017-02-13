@@ -28,7 +28,7 @@ public class SpawnEnemyController : MonoBehaviour {
     void Start() {
         screen = plane.GetComponent<PlaneController>().get_screen();
         get_spawn_attribute();
-        StartCoroutine (SpawnEnemy (1f));
+        StartCoroutine (SpawnEnemy (0.75f));
     }
 
     void Update() {
@@ -42,6 +42,6 @@ public class SpawnEnemyController : MonoBehaviour {
             this.transform.position = new Vector3(random_pos, 0.5f, posz);
         Instantiate (myEnemy, this.gameObject.transform.position, Quaternion.Euler(0,transform.eulerAngles.y ,0));
         yield return new WaitForSeconds(waitTime);
-        StartCoroutine (SpawnEnemy (1f));
+        StartCoroutine (SpawnEnemy (0.75f));
     }
 }

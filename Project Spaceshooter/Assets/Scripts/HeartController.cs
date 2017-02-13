@@ -12,7 +12,7 @@ public class HeartController : MonoBehaviour {
         this.gameObject.transform.Find(heart).GetComponent<RawImage>().enabled = false;
     }
 
-    void Update() {
-        health = Spaceship.GetComponent<SpaceShipController>().health;
+    void Start(){
+        // this.gameObject.transform.position
     }
 }
