@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour {
 
-    // Use this for initialization
     public AudioClip myExplosion;
-    void Start () {
-		
-    }
-	
-    // Update is called once per frame
+    public float speed;
+
     void Update () {
         this.gameObject.transform.Translate (Vector3.forward * Time.deltaTime * 10f);
+        transform.position += transform.forward * Time.deltaTime * 10f * speed;
         if (this.gameObject.transform.position.z >= 20f) {
             Destroy (this.gameObject);
         }

@@ -18,12 +18,16 @@ public class SpaceShipController : MonoBehaviour{
         zMax = screen[0]/2.0f;
     }
 
-    void rotate(){
+    float get_angle(){
         Vector3 mousePos = Input.mousePosition;
         Vector3 objectPos = Camera.main.WorldToScreenPoint (transform.position);
         mousePos.x = mousePos.x - objectPos.x;
         mousePos.y = mousePos.y - objectPos.y;
-        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;       
+        return angle;
+    }
+    void rotate(){
+        float angle = get_angle();
         transform.rotation = Quaternion.Euler(new Vector3(0, -angle + 180, 0));
     }
 
@@ -44,7 +48,7 @@ public class SpaceShipController : MonoBehaviour{
         rotate();
         movement();
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
-            Instantiate (myBullet,this.gameObject.transform.position,Quaternion.identity);
+            Instantiate (myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
         }
     }
 }
