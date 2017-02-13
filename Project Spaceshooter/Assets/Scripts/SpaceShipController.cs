@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpaceShipController : MonoBehaviour{
 
+    public int health;
     public float speed;
     public GameObject myBullet;
     public GameObject plane;
@@ -24,7 +25,7 @@ public class SpaceShipController : MonoBehaviour{
     }
     void rotate(){
         float angle = get_angle();
-        transform.rotation = Quaternion.Euler(new Vector3(0, -angle + 180, 0));
+        this.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, -angle + 180, 0));
     }
 
     void movement(){
@@ -32,10 +33,10 @@ public class SpaceShipController : MonoBehaviour{
         this.gameObject.GetComponent<Rigidbody>().velocity = movement * speed * Time.deltaTime * 10f;
         float posx = this.gameObject.GetComponent<Rigidbody>().position.x;
         float posz = this.gameObject.GetComponent<Rigidbody>().position.z;
-        this.gameObject.GetComponent<Rigidbody>().position = new Vector3 
+        this.GetComponent<Rigidbody>().position = new Vector3 
             (
              Mathf.Clamp (posx, screen["xMin"], screen["xMax"]), 
-             0.0f, 
+             0.0f,
              Mathf.Clamp (posz, screen["zMin"], screen["zMax"])
              );
     }

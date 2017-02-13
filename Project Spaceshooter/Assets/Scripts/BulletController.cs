@@ -8,9 +8,8 @@ public class BulletController : MonoBehaviour {
     public float speed;
 
     void Update () {
-        this.gameObject.transform.Translate (Vector3.forward * Time.deltaTime * 10f);
         transform.position += transform.forward * Time.deltaTime * 10f * speed;
-        if (this.gameObject.transform.position.z >= 20f) {
+        if (this.gameObject.transform.position.z >= 40f) {
             Destroy (this.gameObject);
         }
     }
