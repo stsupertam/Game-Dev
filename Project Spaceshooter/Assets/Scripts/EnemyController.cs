@@ -17,8 +17,12 @@ public class EnemyController : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         Destroy(this.gameObject);
         if(other.gameObject.name == "Spaceship"){
-            other.gameObject.GetComponent<SpaceShipController>().health -= 1;
-            if(other.gameObject.GetComponent<SpaceShipController>().health <= 0)
+            GameObject spaceship = other.gameObject;
+            int health = spaceship.GetComponent<SpaceShipController>().health;
+            string heart = "heart_" + health;
+            spaceship.transform.Find("Canvas").gameObject.GetComponent<HeartController>().display_heart(heart);
+            spaceship.GetComponent<SpaceShipController>().health -= 1;
+            if(spaceship.GetComponent<SpaceShipController>().health <= 0)
                 Destroy(other.gameObject);
         }
     }
