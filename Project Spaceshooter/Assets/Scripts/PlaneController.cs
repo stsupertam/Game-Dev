@@ -5,12 +5,15 @@ using UnityEngine;
 public class PlaneController : MonoBehaviour {
     private float height;
     private float width;
+    public Dictionary<string, float> screen;
 
-    public float [] get_screen(){
+    public Dictionary<string, float> get_screen(){
         Debug.Log("Hello world");
-        float [] screen = new float[2];
-        screen[0] = height;
-        screen[1] = width;
+        screen = new Dictionary<string, float>();
+        screen.Add("xMin", -width/2.0f);
+        screen.Add("xMax", width/2.0f);
+        screen.Add("zMin", -height/2.0f);
+        screen.Add("zMax", height/2.0f);
         return screen;
     }
 

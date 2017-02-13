@@ -7,15 +7,11 @@ public class SpaceShipController : MonoBehaviour{
     public float speed;
     public GameObject myBullet;
     public GameObject plane;
-    private float [] screen;
+    private Dictionary<string, float> screen;
     private float xMin, xMax, zMin, zMax;
 
     void Start(){
         screen = plane.GetComponent<PlaneController>().get_screen();
-        xMin = -screen[1]/2.0f;
-        xMax = screen[1]/2.0f;
-        zMin = -screen[0]/2.0f;
-        zMax = screen[0]/2.0f;
     }
 
     float get_angle(){
@@ -23,7 +19,7 @@ public class SpaceShipController : MonoBehaviour{
         Vector3 objectPos = Camera.main.WorldToScreenPoint (transform.position);
         mousePos.x = mousePos.x - objectPos.x;
         mousePos.y = mousePos.y - objectPos.y;
-        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;       
+        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
         return angle;
     }
     void rotate(){
@@ -38,9 +34,9 @@ public class SpaceShipController : MonoBehaviour{
         float posz = this.gameObject.GetComponent<Rigidbody>().position.z;
         this.gameObject.GetComponent<Rigidbody>().position = new Vector3 
             (
-             Mathf.Clamp (posx, xMin, xMax), 
+             Mathf.Clamp (posx, screen["xMin"], screen["xMax"]), 
              0.0f, 
-             Mathf.Clamp (posz, zMin, zMax)
+             Mathf.Clamp (posz, screen["zMin"], screen["zMax"])
              );
     }
 
