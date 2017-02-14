@@ -10,6 +10,7 @@ public class SpaceShipController : MonoBehaviour{
     public GameObject plane;
     public LevelManager levelManager;
     public bool gameover;
+    public ParticleSystem particle;
     private float timer;
     private Dictionary<string, float> screen;
     private float xMin, xMax, zMin, zMax;
@@ -51,13 +52,14 @@ public class SpaceShipController : MonoBehaviour{
         rotate();
         movement();
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
-            Instantiate (myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
+            Instantiate(myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
         }
         if(gameover){
             this.gameObject.GetComponent<Renderer>().enabled = false;
+            Instantiate(particle, this.gameObject.transform.position,Quaternion.identity);
             timer += Time.deltaTime;
             Debug.Log(timer);
-            if(timer >= 1f){
+            if(timer >= 0.75f){
                 levelManager.LoadLevel("Game_Over_Screen");
             }
         }

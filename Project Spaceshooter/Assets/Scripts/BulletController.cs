@@ -6,6 +6,7 @@ public class BulletController : MonoBehaviour {
 
     public float speed;
     public AudioClip explosion;
+    public ParticleSystem particle;
     private Dictionary<string, float> screen;
     private GameObject plane;
 
@@ -16,7 +17,6 @@ public class BulletController : MonoBehaviour {
 
     void Update () {
         transform.position += transform.forward * Time.deltaTime * 10f * speed;
-        Debug.Log(screen["zMax"]);
         if (this.gameObject.transform.position.z > screen["zMax"] ||
             this.gameObject.transform.position.z < screen["zMin"] ||
             this.gameObject.transform.position.x > screen["xMax"] ||
@@ -27,6 +27,7 @@ public class BulletController : MonoBehaviour {
 
     void OnTriggerEnter(Collider other){
         AudioSource.PlayClipAtPoint(explosion, new Vector3(0, 30, 0));
+        Instantiate(particle, other.gameObject.transform.position,Quaternion.identity);
         Destroy(other.gameObject);
     }
 }
