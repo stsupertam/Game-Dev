@@ -9,10 +9,8 @@ public class HeartController : MonoBehaviour {
     private int health;
 
     public void display_heart(string heart){
-        this.gameObject.transform.Find(heart).GetComponent<RawImage>().enabled = false;
-    }
-
-    void Start(){
-        // this.gameObject.transform.position
+        Transform heart_display = this.gameObject.transform.Find(heart);
+        if(heart_display)
+            this.gameObject.transform.Find(heart).GetComponent<RawImage>().enabled = false;
     }
 }

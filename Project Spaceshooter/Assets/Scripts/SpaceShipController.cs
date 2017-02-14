@@ -9,16 +9,16 @@ public class SpaceShipController : MonoBehaviour{
     public GameObject myBullet;
     public GameObject plane;
     public LevelManager levelManager;
+    public AudioClip spaceship_explosion;
     public bool gameover;
     public ParticleSystem particle;
-    private float timer;
     private Dictionary<string, float> screen;
     private float xMin, xMax, zMin, zMax;
+    private bool isCoroutineStarted = false;
 
     void Start(){
         gameover = false;
         screen = plane.GetComponent<PlaneController>().get_screen();
-        timer = 0;
         levelManager = GameObject.FindObjectOfType<LevelManager>();
     }
 
@@ -48,19 +48,28 @@ public class SpaceShipController : MonoBehaviour{
              );
     }
 
+    IEnumerator ending(float waitTime){
+        Instantiate(particle, this.transform.position,Quaternion.identity);
+        AudioSource.PlayClipAtPoint(spaceship_explosion, new Vector3(0, 30, 0));
+        this.gameObject.transform.position = new Vector3(-999f, -999f, -999f);
+        yield return new WaitForSeconds(waitTime);
+        levelManager.LoadLevel("Game_Over_Screen");
+    }
+
     void Update(){
-        rotate();
-        movement();
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
-            Instantiate(myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
+        if(!gameover){
+            movement();
+            rotate();
+            if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
+                Debug.Log("Kuy shoot mai");
+                Instantiate(myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
+            }
         }
-        if(gameover){
+        else{
             this.gameObject.GetComponent<Renderer>().enabled = false;
-            Instantiate(particle, this.gameObject.transform.position,Quaternion.identity);
-            timer += Time.deltaTime;
-            Debug.Log(timer);
-            if(timer >= 0.75f){
-                levelManager.LoadLevel("Game_Over_Screen");
+            if(!isCoroutineStarted){
+            StartCoroutine(ending(2f));
+            isCoroutineStarted = true;
             }
         }
     }

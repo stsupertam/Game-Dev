@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
     public float speed;
-    public AudioClip spaceship_explosion;
     public AudioClip enemy_explosion;
+    public ParticleSystem particle;
     private GameObject plane;
     private Dictionary<string, float> screen;
 
@@ -33,12 +33,13 @@ public class EnemyController : MonoBehaviour {
         spaceship.GetComponent<SpaceShipController>().health -= 1;
         AudioSource.PlayClipAtPoint(enemy_explosion, new Vector3(0, 30, 0));
         if(spaceship.GetComponent<SpaceShipController>().health <= 0){
-            AudioSource.PlayClipAtPoint(spaceship_explosion, new Vector3(0, 30, 0));
             spaceship.GetComponent<SpaceShipController>().gameover = true;
         }
     }
 
     void OnTriggerEnter(Collider other) {
+        Instantiate(particle, other.transform.position,Quaternion.identity);
+        AudioSource.PlayClipAtPoint(enemy_explosion, new Vector3(0, 30, 0));
         Destroy(this.gameObject);
         if(other.gameObject.name == "Spaceship"){
             GameObject spaceship = other.gameObject;
