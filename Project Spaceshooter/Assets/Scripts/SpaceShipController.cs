@@ -61,7 +61,6 @@ public class SpaceShipController : MonoBehaviour{
             movement();
             rotate();
             if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
-                Debug.Log("Kuy shoot mai");
                 Instantiate(myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
             }
         }

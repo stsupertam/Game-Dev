@@ -11,13 +11,13 @@ public class EnemyController : MonoBehaviour {
     private Dictionary<string, float> screen;
 
     void Start(){
-        speed = Random.Range(0f, 10f);
+        speed = Random.Range(0.5f, 5f);
         plane = GameObject.Find("Plane");
         screen = plane.GetComponent<PlaneController>().get_screen();
     }
 
     void Update(){
-        this.transform.position -= transform.forward * Time.deltaTime * 10f * speed;
+        this.transform.position -= transform.forward * Time.deltaTime * 5f * speed;
         if (this.gameObject.transform.position.z > screen["zMax"] ||
             this.gameObject.transform.position.z < screen["zMin"] ||
             this.gameObject.transform.position.x > screen["xMax"] ||
