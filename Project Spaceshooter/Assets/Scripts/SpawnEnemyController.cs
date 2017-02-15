@@ -10,12 +10,12 @@ public class SpawnEnemyController : MonoBehaviour {
     private float posx;
     private float posz;
     private float rand;
-    private string [] name;
+    private string [] spawn_name;
     private float spawn_angle;
 
     void get_spawn_attribute(){
-        name = this.gameObject.name.Split('_');
-        if(name[1] == "X"){
+        spawn_name = this.gameObject.name.Split('_');
+        if(spawn_name[1] == "X"){
             posx = this.transform.position.x * screen["xMax"];
             rand = screen["xMax"];
         }
@@ -31,12 +31,9 @@ public class SpawnEnemyController : MonoBehaviour {
         StartCoroutine(SpawnEnemy(0.75f));
     }
 
-    void Update() {
-    }
-
     IEnumerator SpawnEnemy(float waitTime){
         float random_pos = Random.Range(-rand, rand);
-        if(name[1] == "X")
+        if(spawn_name[1] == "X")
             this.transform.position = new Vector3(posx, 0.5f, random_pos);
         else
             this.transform.position = new Vector3(random_pos, 0.5f, posz);
