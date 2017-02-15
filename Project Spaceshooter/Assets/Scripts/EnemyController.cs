@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour {
     public ParticleSystem particle;
     private GameObject plane;
     private ScoreController scorecontrol;
+    private Canvas ui;
     private Dictionary<string, float> screen;
 
     void Start(){
@@ -16,6 +17,7 @@ public class EnemyController : MonoBehaviour {
         plane = GameObject.Find("Plane");
         screen = plane.GetComponent<PlaneController>().get_screen();
         scorecontrol = GameObject.FindObjectOfType<ScoreController>();
+        ui = GameObject.FindObjectOfType<Canvas>();
     }
 
     void Update(){
@@ -31,11 +33,11 @@ public class EnemyController : MonoBehaviour {
     void spaceship_handle(GameObject spaceship){
         int health = spaceship.GetComponent<SpaceShipController>().health;
         string heart = "heart_" + health;
-        spaceship.transform.Find("Canvas").gameObject.GetComponent<HeartController>().display_heart(heart);
+        ui.GetComponent<UIController>().display_heart(heart);
         spaceship.GetComponent<SpaceShipController>().health -= 1;
         AudioSource.PlayClipAtPoint(enemy_explosion, new Vector3(0, 30, 0));
         if(spaceship.GetComponent<SpaceShipController>().health <= 0){
-            spaceship.GetComponent<SpaceShipController>().gameover = true;
+            scorecontrol.gameover = true;
         }
     }
 
@@ -43,12 +45,13 @@ public class EnemyController : MonoBehaviour {
         Instantiate(particle, other.transform.position,Quaternion.identity);
         AudioSource.PlayClipAtPoint(enemy_explosion, new Vector3(0, 30, 0));
         scorecontrol.score += 100;
-        scorecontrol.enemy_destroy += 1;
         Destroy(this.gameObject);
         if(other.gameObject.name == "Spaceship"){
             GameObject spaceship = other.gameObject;
             spaceship_handle(spaceship);
         }
+        else
+            scorecontrol.hit += 1;
     }
 }
 

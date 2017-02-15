@@ -15,11 +15,8 @@ public class SpaceShipController : MonoBehaviour{
     private bool isCoroutineStarted = false;
     private ScoreController scorecontrol;
     private LevelManager levelManager;
-    [HideInInspector]
-    public bool gameover;
 
     void Start(){
-        gameover = false;
         screen = plane.GetComponent<PlaneController>().get_screen();
         levelManager = GameObject.FindObjectOfType<LevelManager>();
         scorecontrol = GameObject.FindObjectOfType<ScoreController>();
@@ -60,12 +57,12 @@ public class SpaceShipController : MonoBehaviour{
     }
 
     void Update(){
-        if(!gameover){
+        if(!scorecontrol.gameover){
             movement();
             rotate();
             if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
                 Instantiate(myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
-                scorecontrol.bullet_create += 1;
+                scorecontrol.hit += 1;
             }
         }
         else{

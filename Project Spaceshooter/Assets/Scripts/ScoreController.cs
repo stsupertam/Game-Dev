@@ -5,28 +5,31 @@ using UnityEngine;
 public class ScoreController : MonoBehaviour {
 
     public GameObject spaceship;
+    static ScoreController instance = null;
     [HideInInspector]
-    public int bullet_create = 0;
+    public bool gameover = false;
     [HideInInspector]
-    public int enemy_destroy = 0;
+    public int hit = 0;
     [HideInInspector]
-    public double score = 0;
-    private double accurate = 0;
+    public int miss = 0;
+    [HideInInspector]
+    public float score = 0;
+    private float accurate = 0;
     private bool endgame = false;
 
     void Start(){
+        if(instance == null) {
+            instance = this;
+            GameObject.DontDestroyOnLoad(gameObject);
+        }
     }
 
-    void Update() {
-        Debug.Log("Score : " + score);
-        Debug.Log("Enemy_destroy : " + enemy_destroy);
-        Debug.Log("Bullet_create : " + bullet_create);
-        if(spaceship.GetComponent<SpaceShipController>().gameover){
+    void Update(){
+        if(gameover){
             if(!endgame){
-                accurate = (enemy_destroy / (bullet_create * 1.0)) * 100;
-                Debug.Log("Accurate : " + accurate);
+                if(hit + miss != 0)
+                    accurate = (hit / (hit + miss *1.0f)) * 100;
                 score = score + accurate * 100;
-                Debug.Log("Score : " + score);
                 endgame = true;
             }
         }
