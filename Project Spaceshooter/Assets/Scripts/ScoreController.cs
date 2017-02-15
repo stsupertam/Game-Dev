@@ -4,34 +4,13 @@ using UnityEngine;
 
 public class ScoreController : MonoBehaviour {
 
-    public GameObject spaceship;
     static ScoreController instance = null;
-    [HideInInspector]
-    public bool gameover = false;
-    [HideInInspector]
-    public int hit = 0;
-    [HideInInspector]
-    public int miss = 0;
-    [HideInInspector]
-    public float score = 0;
-    private float accurate = 0;
-    private bool endgame = false;
+    public static bool gameover = false;
+    public static float score = 0;
 
-    void Start(){
-        if(instance == null) {
-            instance = this;
-            GameObject.DontDestroyOnLoad(gameObject);
-        }
-    }
+    void Awake(){
+        gameover = false;
+        score = 0;
 
-    void Update(){
-        if(gameover){
-            if(!endgame){
-                if(hit + miss != 0)
-                    accurate = (hit / (hit + miss *1.0f)) * 100;
-                score = score + accurate * 100;
-                endgame = true;
-            }
-        }
     }
 }

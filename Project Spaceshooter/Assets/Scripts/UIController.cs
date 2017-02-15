@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     public GameObject Spaceship;
-    public ScoreController scorecontrol;
     private Text score_text;
     private int health;
 
@@ -21,6 +20,6 @@ public class UIController : MonoBehaviour {
     }
 
     void Update(){
-        score_text.text = "" + Mathf.RoundToInt(scorecontrol.score);
+        score_text.text = "" + Mathf.RoundToInt(ScoreController.score);
     }
 }

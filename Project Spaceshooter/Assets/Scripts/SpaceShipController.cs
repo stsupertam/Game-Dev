@@ -13,13 +13,11 @@ public class SpaceShipController : MonoBehaviour{
     private Dictionary<string, float> screen;
     private float xMin, xMax, zMin, zMax;
     private bool isCoroutineStarted = false;
-    private ScoreController scorecontrol;
     private LevelManager levelManager;
 
     void Start(){
         screen = plane.GetComponent<PlaneController>().get_screen();
         levelManager = GameObject.FindObjectOfType<LevelManager>();
-        scorecontrol = GameObject.FindObjectOfType<ScoreController>();
     }
 
     float get_angle(){
@@ -53,16 +51,15 @@ public class SpaceShipController : MonoBehaviour{
         AudioSource.PlayClipAtPoint(spaceship_explosion, new Vector3(0, 30, 0));
         this.gameObject.transform.position = new Vector3(-999f, -999f, -999f);
         yield return new WaitForSeconds(waitTime);
-        levelManager.LoadLevel("Game_Over_Screen");
+        levelManager.LoadLevel("GameOver");
     }
 
     void Update(){
-        if(!scorecontrol.gameover){
+        if(!ScoreController.gameover){
             movement();
             rotate();
             if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
                 Instantiate(myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
-                scorecontrol.hit += 1;
             }
         }
         else{
