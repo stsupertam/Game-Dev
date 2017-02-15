@@ -8,12 +8,14 @@ public class EnemyController : MonoBehaviour {
     public AudioClip enemy_explosion;
     public ParticleSystem particle;
     private GameObject plane;
+    private ScoreController scorecontrol;
     private Dictionary<string, float> screen;
 
     void Start(){
         speed = Random.Range(0.5f, 5f);
         plane = GameObject.Find("Plane");
         screen = plane.GetComponent<PlaneController>().get_screen();
+        scorecontrol = GameObject.FindObjectOfType<ScoreController>();
     }
 
     void Update(){
@@ -40,6 +42,8 @@ public class EnemyController : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         Instantiate(particle, other.transform.position,Quaternion.identity);
         AudioSource.PlayClipAtPoint(enemy_explosion, new Vector3(0, 30, 0));
+        scorecontrol.score += 100;
+        scorecontrol.enemy_destroy += 1;
         Destroy(this.gameObject);
         if(other.gameObject.name == "Spaceship"){
             GameObject spaceship = other.gameObject;

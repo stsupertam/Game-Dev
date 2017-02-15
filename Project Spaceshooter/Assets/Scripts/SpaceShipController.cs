@@ -8,18 +8,21 @@ public class SpaceShipController : MonoBehaviour{
     public float speed;
     public GameObject myBullet;
     public GameObject plane;
-    public LevelManager levelManager;
     public AudioClip spaceship_explosion;
-    public bool gameover;
     public ParticleSystem particle;
     private Dictionary<string, float> screen;
     private float xMin, xMax, zMin, zMax;
     private bool isCoroutineStarted = false;
+    private ScoreController scorecontrol;
+    private LevelManager levelManager;
+    [HideInInspector]
+    public bool gameover;
 
     void Start(){
         gameover = false;
         screen = plane.GetComponent<PlaneController>().get_screen();
         levelManager = GameObject.FindObjectOfType<LevelManager>();
+        scorecontrol = GameObject.FindObjectOfType<ScoreController>();
     }
 
     float get_angle(){
@@ -62,13 +65,14 @@ public class SpaceShipController : MonoBehaviour{
             rotate();
             if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
                 Instantiate(myBullet,this.gameObject.transform.position,Quaternion.Euler(new Vector3(0, -get_angle() + 90, 0)));
+                scorecontrol.bullet_create += 1;
             }
         }
         else{
             this.gameObject.GetComponent<Renderer>().enabled = false;
             if(!isCoroutineStarted){
-            StartCoroutine(ending(2f));
-            isCoroutineStarted = true;
+                StartCoroutine(ending(2f));
+                isCoroutineStarted = true;
             }
         }
     }
