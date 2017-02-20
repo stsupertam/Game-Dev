@@ -6,8 +6,7 @@ public class SpaceShipController : MonoBehaviour{
 
     public int health;
     public float speed;
-    public GameObject myBullet;
-    public GameObject plane;
+    public GameObject myBullet, plane;
     public AudioClip spaceship_explosion;
     public ParticleSystem particle;
     private Dictionary<string, float> screen;
